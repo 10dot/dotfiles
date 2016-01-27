@@ -1,6 +1,6 @@
 # ~/.tmuxinator/codeburner.yml
 
-name: codeburner
+name: codeburner-dev
 root: ~/code/codeburner
 
 # Optional tmux socket
@@ -8,6 +8,11 @@ root: ~/code/codeburner
 
 # Runs before everything. Use it to start daemons etc.
 # pre: sudo /etc/rc.d/mysqld start
+
+# start mysql/redis, requires homebrew services
+pre:
+  - brew services start mysql
+  - brew services start redis
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
 # pre_window: rbenv shell 2.0.0-p247
@@ -29,21 +34,20 @@ root: ~/code/codeburner
 
 windows:
   - backend:
-      layout: 4ca1,160x54,0,0[160x33,0,0{103x33,0,0,3,56x33,104,0,10},160x20,0,34,11]
+      layout: 059d,160x60,0,0[160x30,0,0{80x30,0,0,0,79x30,81,0,4},160x29,0,31,5]
       panes:
         - bundle exec rails s -p 8080 -b 0.0.0.0
         - bundle exec sidekiq ./config/sidekiq.yml
         -
   - frontend:
       root: ~/code/codeburner-frontend
-      layout: a5fa,160x54,0,0[160x37,0,0,4,160x16,0,38,5]
+      layout: 9170,160x60,0,0[160x30,0,0,1,160x29,0,31,6]
       panes:
         - grunt serve
         -
   - data:
-      layout: 7eff,160x54,0,0[160x36,0,0,6,160x17,0,37,7]
+      layout: 1173,160x60,0,0[160x30,0,0,2,160x29,0,31,7]
       panes:
         - mysql -u root codeburner_development
         - redis-cli
   - scratch:
-
